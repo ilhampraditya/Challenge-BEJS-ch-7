@@ -1,0 +1,34 @@
+### register
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+    "first_name":"ilham",
+    "last_name": "praditya",
+    "email": "21082010208@student.upnjatim.ac.id",
+    "password": "12345"
+}
+### Login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email":"21082010205@student.upnjatim.ac.id",
+    "password":"12345"
+}
+
+### Login dengan Token
+GET http://localhost:3000/api/v1/auth/authenticate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6ImlsaGFtIiwibGFzdF9uYW1lIjoicHJhZGl0eWEiLCJlbWFpbCI6IjIxMDgyMDEwMjA1QHN0dWRlbnQudXBuamF0aW0uYWMuaWQiLCJpYXQiOjE3MTU5Mzc1NTV9.GwfyZvwCoY6a7KVctR60QqKoKYiFUpEHDnss9PF0kcg
+
+### Get all user
+GET http://localhost:3000/api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6ImlsaGFtIiwibGFzdF9uYW1lIjoicHJhZGl0eWEiLCJlbWFpbCI6InByYWRpdHlhaWxoYW0wNEBnbWFpbC5jb20iLCJpYXQiOjE3MTU4NTEwMTZ9.EzrWJPso-Kn4QxN-aQ0NzNLLJbLuwynxhOi3e5Hu9O8
+
+### detail user
+GET http://localhost:3000/api/v1/users/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6ImlsaGFtIiwibGFzdF9uYW1lIjoicHJhZGl0eWEiLCJlbWFpbCI6InByYWRpdHlhaWxoYW0wNEBnbWFpbC5jb20iLCJpYXQiOjE3MTU4NTEwMTZ9.EzrWJPso-Kn4QxN-aQ0NzNLLJbLuwynxhOi3e5Hu9O8
+
+###
+GET http://localhost:3000/api/v1/users/3/notifications
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header,
+        nav,
+        main,
+        footer {
+            margin: 20px auto;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s;
+        }
+
+        li.unread {
+            background: #e0e0e0;
+        }
+
+        li b {
+            color: #555;
+        }
+
+        li p {
+            color: #777;
+        }
+
+        footer p {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User ID: <span id="userId"><%= userID %></span></h1>
+    </header>
+    <main>
+        <p>Unread notifications: <span id="unreadCnt">0</span></p>
+        <h2>Notification list:</h2>
+        <ul id="notification-list">
+            <% notifications.forEach(item => { %>
+                <li>
+                    <b><%= item.title %></b>
+                    <p><%= item.body %></p>
+                </li>
+            <% }) %>
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2024 mullet_dev. All rights reserved.</p>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket = io();
+        let notifications = document.getElementById('notification-list');
+        let userId = document.getElementById('userId').textContent;
+        let unreadCntElement = document.getElementById('unreadCnt');
+        let unreadCnt = 0;
+
+        function markAsRead(item) {
+            if (item.classList.contains('unread')) {
+                item.classList.remove('unread');
+                unreadCnt--;
+                unreadCntElement.textContent = unreadCnt;
+            }
+        }
+
+        // Mark existing notifications as read on load
+        window.addEventListener('load', () => {
+            let items = document.querySelectorAll('#notification-list li');
+            items.forEach(item => {
+                item.addEventListener('click', () => markAsRead(item));
+            });
+        });
+
+        socket.on(`user-${userId}`, notif => {
+            let item = document.createElement('li');
+            item.className = 'unread';
+            item.innerHTML = `<b>${notif.title}</b><p>${notif.body}</p>`;
+            item.addEventListener('click', () => markAsRead(item));
+            notifications.prepend(item);
+            unreadCnt++;
+            unreadCntElement.textContent = unreadCnt;
+        });
+    </script>
+</body>
+</html>
